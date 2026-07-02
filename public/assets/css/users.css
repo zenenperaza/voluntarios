@@ -1,0 +1,50 @@
+/* 🌞 Forzar tema claro para el formulario incluso en modo oscuro */
+body[data-layout-color="dark"] .modo-claro-forzado,
+body[data-layout-color="dark"] .modo-claro-forzado * {
+  background-color: #fff !important;
+  color: #1f1f1f !important;
+  border-color: #ccc !important;
+  box-shadow: none !important;
+}
+
+/* Inputs y selects */
+body[data-layout-color="dark"] .modo-claro-forzado input,
+body[data-layout-color="dark"] .modo-claro-forzado select,
+body[data-layout-color="dark"] .modo-claro-forzado textarea {
+  background-color: #fff !important;
+  color: #000 !important;
+  border-bottom: 2px solid #ccc !important;
+}
+
+/* Labels */
+body[data-layout-color="dark"] .modo-claro-forzado label,
+body[data-layout-color="dark"] .modo-claro-forzado .form-check-label {
+  color: #111 !important;
+}
+
+/* Opciones de select */
+body[data-layout-color="dark"] .modo-claro-forzado select option {
+  background-color: #ffffff !important;
+  color: #000 !important;
+}
+
+/* Wizard y tabs */
+body[data-layout-color="dark"] .modo-claro-forzado .form-wizard-header .nav-link {
+  background-color: #f5f5f5 !important;
+  color: #555 !important;
+}
+
+body[data-layout-color="dark"] .modo-claro-forzado .form-wizard-header .nav-link.active {
+  background-color: #ffffff !important;
+  color: #00437c !important;
+  border-bottom-color: #00437c !important;
+}
+
+/* Barra de progreso */
+body[data-layout-color="dark"] .modo-claro-forzado #progressbarwizard .progress {
+  background-color: #e0e0e0 !important;
+}
+
+body[data-layout-color="dark"] .modo-claro-forzado #progressbarwizard .progress-bar {
+  background-color: #673ab7 !important;
+}

@@ -1,0 +1,115 @@
+/* Espaciado y bordes para botones de DataTables */
+div.dt-buttons .btn {
+    margin-right: 0.5rem;
+    border-radius: 6px;
+    font-size: 14px;
+    padding: 6px 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Íconos mejor alineados */
+div.dt-buttons .btn i {
+    font-size: 16px;
+}
+
+/* Botón Excel */
+div.dt-buttons .btn-outline-success {
+    border: 1px solid #28a745;
+    color: #28a745;
+    background-color: transparent;
+}
+
+div.dt-buttons .btn-outline-success:hover {
+    background-color: #28a745;
+    color: #fff;
+}
+
+/* Botón PDF */
+div.dt-buttons .btn-outline-danger {
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    background-color: transparent;
+}
+
+div.dt-buttons .btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+/* Botón Copiar */
+div.dt-buttons .btn-outline-secondary {
+    border: 1px solid #6c757d;
+    color: #6c757d;
+    background-color: transparent;
+}
+
+div.dt-buttons .btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+/* Botón Imprimir */
+div.dt-buttons .btn-outline-dark {
+    border: 1px solid #343a40;
+    color: #343a40;
+    background-color: transparent;
+}
+
+div.dt-buttons .btn-outline-dark:hover {
+    background-color: #343a40;
+    color: #fff;
+}
+/* Estilo moderno para el campo de búsqueda */
+.dataTables_filter {
+    margin-bottom: 1rem;
+    float: right;
+}
+
+.dataTables_filter label {
+    font-weight: 500;
+    color: #444;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dataTables_filter input {
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 14px;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+.dataTables_filter input:focus {
+    border-color: #673ab7;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(103, 58, 183, 0.25);
+}
+
+/* Modo oscuro */
+body[data-layout-color="dark"] .dataTables_filter label {
+    color: #ccc;
+}
+
+body[data-layout-color="dark"] .dataTables_filter input {
+    background-color: #2b2b2b;
+    border-color: #555;
+    color: #fff;
+}
+
+div#casos-table_length {
+    margin: 15px 5px;
+}
+.container-fluid {
+    margin-left: 5px;
+}
+
+#casos-table {
+    position: relative;
+    z-index: 1;
+}
