@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             ['email' => 'admin@asonacop.org'],
             [
                 'name' => 'Administrador ASONACOP',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('Uk26**97((#'),
                 'email_verified_at' => now(),
             ]
         );
