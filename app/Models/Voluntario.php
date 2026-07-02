@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Voluntario extends Model
 {
@@ -10,6 +11,7 @@ class Voluntario extends Model
         'nombre',
         'apellido',
         'cedula',
+        'qr_token',
         'telefono',
         'email',
         'profesion',
@@ -20,4 +22,13 @@ class Voluntario extends Model
         'estatus',
         'observaciones',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (Voluntario $voluntario): void {
+            if (! $voluntario->qr_token) {
+                $voluntario->qr_token = (string) Str::uuid();
+            }
+        });
+    }
 }

@@ -6,6 +6,8 @@
     @php
         $nombreCompleto = trim($voluntario->nombre . ' ' . $voluntario->apellido);
         $iniciales = strtoupper(substr($voluntario->nombre, 0, 1) . substr($voluntario->apellido, 0, 1));
+        $qrUrl = route('voluntarios.qr', $voluntario->qr_token);
+        $qrImageUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=12&data=' . urlencode($qrUrl);
     @endphp
 
     <div class="page-title-box d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
@@ -72,6 +74,26 @@
                             <p class="mb-2"><i class="mdi mdi-school-outline text-primary me-2"></i><strong>Profesion:</strong> {{ $voluntario->profesion ?: 'No registrada' }}</p>
                             <p class="mb-2"><i class="mdi mdi-briefcase-outline text-primary me-2"></i><strong>Cargo:</strong> {{ $voluntario->cargo ?: 'No registrado' }}</p>
                             <p class="mb-0"><i class="mdi mdi-domain text-primary me-2"></i><strong>Organismo:</strong> {{ $voluntario->organismo ?: 'No registrado' }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-4">
+                    <div class="card shadow-none border h-100">
+                        <div class="card-body">
+                            <h5 class="mb-3">Codigo QR</h5>
+                            <div class="text-center">
+                                <img src="{{ $qrImageUrl }}" alt="Codigo QR de {{ $nombreCompleto }}" class="img-fluid border rounded p-2 bg-white" width="220" height="220">
+                            </div>
+                            <div class="d-grid gap-2 mt-3">
+                                <a href="{{ $qrUrl }}" target="_blank" rel="noopener" class="btn btn-soft-primary">
+                                    <i class="mdi mdi-open-in-new me-1"></i> Abrir perfil publico
+                                </a>
+                                <a href="{{ $qrImageUrl }}" target="_blank" rel="noopener" class="btn btn-soft-success">
+                                    <i class="mdi mdi-download-outline me-1"></i> Descargar QR
+                                </a>
+                            </div>
+                            <p class="text-muted small mt-3 mb-0">{{ $qrUrl }}</p>
                         </div>
                     </div>
                 </div>

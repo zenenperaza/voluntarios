@@ -36,6 +36,19 @@ class VoluntarioController extends Controller
         ]);
     }
 
+    public function perfilQr(string $qrToken)
+    {
+        $voluntario = Voluntario::where('qr_token', $qrToken)
+            ->where('estatus', 'Activo')
+            ->firstOrFail();
+
+        return view('voluntarios.index', [
+            'buscado' => true,
+            'cedula' => $voluntario->cedula,
+            'voluntario' => $voluntario,
+        ]);
+    }
+
     public function listado()
     {
         $voluntarios = Voluntario::orderBy('apellido')->orderBy('nombre')->paginate(12);
