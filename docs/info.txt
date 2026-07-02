@@ -1,0 +1,6 @@
+https://voluntarios.asonacop.org/__deploy/TU_TOKEN/repair
+https://voluntarios.asonacop.org/__deploy/TU_TOKEN/storage-link
+https://voluntarios.asonacop.org/__deploy/TU_TOKEN/migrate
+https://voluntarios.asonacop.org/__deploy/TU_TOKEN/seed-admin
+https://voluntarios.asonacop.org/__deploy/TU_TOKEN/clear
+https://voluntarios.asonacop.org/__deploy/TU_TOKEN/cache

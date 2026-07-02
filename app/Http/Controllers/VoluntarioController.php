@@ -140,15 +140,11 @@ class VoluntarioController extends Controller
 
     public function destroy(Voluntario $voluntario)
     {
-        if ($voluntario->foto) {
-            Storage::disk('public')->delete($voluntario->foto);
-        }
-
         $voluntario->delete();
 
         return redirect()
             ->route('voluntarios.listado')
-            ->with('success', 'Voluntario eliminado correctamente.');
+            ->with('success', 'Voluntario eliminado correctamente. El registro quedo guardado en la base de datos.');
     }
 
     public function desactivar(Voluntario $voluntario)

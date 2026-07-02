@@ -83,6 +83,13 @@
                                                 </button>
                                             </form>
                                         @endif
+                                        <form method="POST" action="{{ route('voluntarios.destroy', $voluntario) }}" onsubmit="return confirm('Deseas eliminar este voluntario? El registro no se borrara definitivamente, solo quedara oculto.')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger" title="Eliminar">
+                                                <i class="mdi mdi-delete-outline"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

@@ -28,6 +28,13 @@
                     </button>
                 </form>
             @endif
+            <form method="POST" action="{{ route('voluntarios.destroy', $voluntario) }}" onsubmit="return confirm('Deseas eliminar este voluntario? El registro no se borrara definitivamente, solo quedara oculto.')">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-outline-danger">
+                    <i class="mdi mdi-delete-outline me-1"></i> Eliminar
+                </button>
+            </form>
             <a href="{{ route('voluntarios.listado') }}" class="btn btn-light">
                 <i class="mdi mdi-arrow-left me-1"></i> Volver
             </a>
