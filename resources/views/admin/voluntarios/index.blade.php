@@ -62,9 +62,15 @@
                                         <a href="{{ route('voluntarios.show', $voluntario) }}" class="btn btn-sm btn-soft-primary" title="Ver perfil">
                                             <i class="mdi mdi-eye-outline"></i>
                                         </a>
-                                        <a href="{{ route('voluntarios.qr', $voluntario->qr_token) }}" class="btn btn-sm btn-soft-success" title="Abrir QR publico" target="_blank" rel="noopener">
-                                            <i class="mdi mdi-qrcode"></i>
-                                        </a>
+                                        @if ($voluntario->qr_token)
+                                            <a href="{{ route('voluntarios.qr', ['qrToken' => $voluntario->qr_token]) }}" class="btn btn-sm btn-soft-success" title="Abrir QR publico" target="_blank" rel="noopener">
+                                                <i class="mdi mdi-qrcode"></i>
+                                            </a>
+                                        @else
+                                            <span class="btn btn-sm btn-soft-secondary disabled" title="QR pendiente">
+                                                <i class="mdi mdi-qrcode"></i>
+                                            </span>
+                                        @endif
                                         <a href="{{ route('voluntarios.edit', $voluntario) }}" class="btn btn-sm btn-soft-warning" title="Editar">
                                             <i class="mdi mdi-pencil-outline"></i>
                                         </a>

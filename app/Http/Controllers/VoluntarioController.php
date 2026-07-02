@@ -52,6 +52,7 @@ class VoluntarioController extends Controller
     public function listado()
     {
         $voluntarios = Voluntario::orderBy('apellido')->orderBy('nombre')->paginate(12);
+        $voluntarios->getCollection()->each->ensureQrToken();
 
         return view('admin.voluntarios.index', compact('voluntarios'));
     }
@@ -98,6 +99,8 @@ class VoluntarioController extends Controller
 
     public function show(Voluntario $voluntario)
     {
+        $voluntario->ensureQrToken();
+
         return view('admin.voluntarios.show', compact('voluntario'));
     }
 

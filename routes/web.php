@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\VoluntarioController;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 $deployAuthorized = function (string $token): void {
     $deployToken = env('DEPLOY_TOKEN');
@@ -16,8 +19,14 @@ $artisanResponse = function (array $lines) {
     return response('<pre>'.e(implode("\n\n", $lines)).'</pre>');
 };
 
-Route::prefix('__deploy/{token}')->group(function () use ($deployAuthorized, $artisanResponse): void {
-    Route::get('/', function (string $token) use ($deployAuthorized, $artisanResponse) {
+Route::prefix('__deploy/{token}')
+    ->withoutMiddleware([
+        StartSession::class,
+        ShareErrorsFromSession::class,
+        VerifyCsrfToken::class,
+    ])
+    ->group(function () use ($deployAuthorized, $artisanResponse): void {
+        Route::get('/', function (string $token) use ($deployAuthorized, $artisanResponse) {
         $deployAuthorized($token);
 
         return $artisanResponse([
@@ -31,9 +40,9 @@ Route::prefix('__deploy/{token}')->group(function () use ($deployAuthorized, $ar
             url("__deploy/{$token}/cache"),
             'Cuando termines, elimina DEPLOY_TOKEN del .env o borra estas rutas temporales.',
         ]);
-    })->name('deploy.panel');
+        })->name('deploy.panel');
 
-    Route::get('/repair', function (string $token) use ($deployAuthorized, $artisanResponse) {
+        Route::get('/repair', function (string $token) use ($deployAuthorized, $artisanResponse) {
         $deployAuthorized($token);
 
         $paths = [
@@ -72,9 +81,9 @@ Route::prefix('__deploy/{token}')->group(function () use ($deployAuthorized, $ar
         $out[] = trim(Artisan::output());
 
         return $artisanResponse($out);
-    });
+        });
 
-    Route::get('/storage-link', function (string $token) use ($deployAuthorized, $artisanResponse) {
+        Route::get('/storage-link', function (string $token) use ($deployAuthorized, $artisanResponse) {
         $deployAuthorized($token);
 
         $out = [];
@@ -93,9 +102,9 @@ Route::prefix('__deploy/{token}')->group(function () use ($deployAuthorized, $ar
         $out[] = trim(Artisan::output());
 
         return $artisanResponse($out);
-    });
+        });
 
-    Route::get('/migrate', function (string $token) use ($deployAuthorized, $artisanResponse) {
+        Route::get('/migrate', function (string $token) use ($deployAuthorized, $artisanResponse) {
         $deployAuthorized($token);
 
         Artisan::call('migrate', [
@@ -106,9 +115,9 @@ Route::prefix('__deploy/{token}')->group(function () use ($deployAuthorized, $ar
             'migrate ejecutado',
             trim(Artisan::output()),
         ]);
-    });
+        });
 
-    Route::get('/seed-admin', function (string $token) use ($deployAuthorized, $artisanResponse) {
+        Route::get('/seed-admin', function (string $token) use ($deployAuthorized, $artisanResponse) {
         $deployAuthorized($token);
 
         Artisan::call('db:seed', [
@@ -120,9 +129,28 @@ Route::prefix('__deploy/{token}')->group(function () use ($deployAuthorized, $ar
             'db:seed ejecutado',
             trim(Artisan::output()),
         ]);
-    });
+        });
 
-    Route::get('/clear', function (string $token) use ($deployAuthorized, $artisanResponse) {
+        Route::get('/qr-tokens', function (string $token) use ($deployAuthorized, $artisanResponse) {
+        $deployAuthorized($token);
+
+        $total = 0;
+
+        \App\Models\Voluntario::whereNull('qr_token')
+            ->orWhere('qr_token', '')
+            ->orderBy('id')
+            ->each(function (\App\Models\Voluntario $voluntario) use (&$total): void {
+                $voluntario->ensureQrToken();
+                $total++;
+            });
+
+        return $artisanResponse([
+            "Tokens QR reparados: {$total}",
+            'Ahora puedes volver a abrir /admin/voluntarios.',
+        ]);
+        });
+
+        Route::get('/clear', function (string $token) use ($deployAuthorized, $artisanResponse) {
         $deployAuthorized($token);
 
         Artisan::call('optimize:clear');
@@ -131,9 +159,9 @@ Route::prefix('__deploy/{token}')->group(function () use ($deployAuthorized, $ar
             'optimize:clear ejecutado',
             trim(Artisan::output()),
         ]);
-    });
+        });
 
-    Route::get('/cache', function (string $token) use ($deployAuthorized, $artisanResponse) {
+        Route::get('/cache', function (string $token) use ($deployAuthorized, $artisanResponse) {
         $deployAuthorized($token);
 
         $out = [];
@@ -149,7 +177,7 @@ Route::prefix('__deploy/{token}')->group(function () use ($deployAuthorized, $ar
 
         return $artisanResponse($out);
     });
-});
+    });
 
 Route::get('/', [VoluntarioController::class, 'index'])->name('voluntarios.index');
 Route::post('/buscar', [VoluntarioController::class, 'buscar'])->name('voluntarios.buscar');

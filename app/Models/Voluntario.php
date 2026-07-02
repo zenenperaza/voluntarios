@@ -27,8 +27,28 @@ class Voluntario extends Model
     {
         static::creating(function (Voluntario $voluntario): void {
             if (! $voluntario->qr_token) {
-                $voluntario->qr_token = (string) Str::uuid();
+                $voluntario->qr_token = self::makeQrToken();
             }
         });
+    }
+
+    public static function makeQrToken(): string
+    {
+        do {
+            $token = (string) Str::uuid();
+        } while (self::where('qr_token', $token)->exists());
+
+        return $token;
+    }
+
+    public function ensureQrToken(): void
+    {
+        if ($this->qr_token) {
+            return;
+        }
+
+        $this->forceFill([
+            'qr_token' => self::makeQrToken(),
+        ])->saveQuietly();
     }
 }

@@ -6,7 +6,7 @@
     @php
         $nombreCompleto = trim($voluntario->nombre . ' ' . $voluntario->apellido);
         $iniciales = strtoupper(substr($voluntario->nombre, 0, 1) . substr($voluntario->apellido, 0, 1));
-        $qrUrl = route('voluntarios.qr', $voluntario->qr_token);
+        $qrUrl = route('voluntarios.qr', ['qrToken' => $voluntario->qr_token]);
         $qrImageUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=12&data=' . urlencode($qrUrl);
     @endphp
 
